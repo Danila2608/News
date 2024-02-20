@@ -7,7 +7,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
