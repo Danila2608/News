@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 class NewsController {
 
-    private static final String API_KEY = "5070f49a6d454c0cbf82c2640dfc8b04";
+    @Value("${newsapi.key}")
+    private String API_KEY;
 
     @GetMapping("/news")
     public ResponseEntity<Object> getNews(@RequestParam(value = "category", defaultValue = "general") String category) {
