@@ -8,11 +8,11 @@ import org.springframework.web.client.RestTemplate;
 public class NewsService {
 
     @Value("${newsapi.key}")
-    private String APIKEY;
+    private String apikey;
 
     public Object getNews(String category) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://newsapi.org/v2/top-headlines?country=us&category=" + category + "&apiKey=" + APIKEY;
+        String url = "https://newsapi.org/v2/top-headlines?country=us&category=" + category + "&apiKey=" + apikey;
         return restTemplate.getForObject(url, Object.class);
     }
 }
