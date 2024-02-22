@@ -1,6 +1,6 @@
-package com.example.lab1.Controller;
+package com.example.lab1.controller;
 
-import com.example.lab1.Service.NewsService;
+import com.example.lab1.service.NewsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
