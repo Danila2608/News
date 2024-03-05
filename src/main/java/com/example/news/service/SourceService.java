@@ -2,25 +2,25 @@ package com.example.news.service;
 
 import com.example.news.entity.Source;
 import com.example.news.repository.SourceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SourceService {
 
-    @Autowired
-    private SourceRepository sourceRepository;
+    private final SourceRepository sourceRepository;
+
+    public SourceService(SourceRepository sourceRepository) {
+        this.sourceRepository = sourceRepository;
+    }
 
     public List<Source> getAllSources() {
         return sourceRepository.findAll();
     }
 
     public Source getSourceById(Long id) {
-        Optional<Source> source = sourceRepository.findById(id);
-        return source.orElse(null);
+        return sourceRepository.findById(id).orElse(null);
     }
 
     public void deleteSource(Long id) {

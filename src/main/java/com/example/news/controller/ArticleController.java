@@ -2,7 +2,6 @@ package com.example.news.controller;
 
 import com.example.news.entity.Article;
 import com.example.news.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import java.util.List;
 @RequestMapping("/articles")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @GetMapping
     public List<Article> getAllArticles() {
@@ -52,5 +54,4 @@ public class ArticleController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

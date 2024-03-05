@@ -2,7 +2,6 @@ package com.example.news.controller;
 
 import com.example.news.entity.Source;
 import com.example.news.service.SourceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import java.util.List;
 @RequestMapping("/sources")
 public class SourceController {
 
-    @Autowired
-    private SourceService sourceService;
+    private final SourceService sourceService;
+
+    public SourceController(SourceService sourceService) {
+        this.sourceService = sourceService;
+    }
 
     @GetMapping
     public List<Source> getAllSources() {

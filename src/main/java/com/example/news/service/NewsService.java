@@ -2,25 +2,25 @@ package com.example.news.service;
 
 import com.example.news.entity.News;
 import com.example.news.repository.NewsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NewsService {
 
-    @Autowired
-    private NewsRepository newsRepository;
+    private final NewsRepository newsRepository;
+
+    public NewsService(NewsRepository newsRepository) {
+        this.newsRepository = newsRepository;
+    }
 
     public List<News> getAllNews() {
         return newsRepository.findAll();
     }
 
     public News getNewsById(Long id) {
-        Optional<News> news = newsRepository.findById(id);
-        return news.orElse(null);
+        return newsRepository.findById(id).orElse(null);
     }
 
     public void deleteNews(Long id) {
