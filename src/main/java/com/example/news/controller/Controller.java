@@ -18,6 +18,7 @@ class Controller {
     public ResponseEntity<Object> getNews(@RequestParam(value = "category", defaultValue = "general") String category) {
         return ResponseEntity.ok(newsService.getNews(category));
     }
+
     @PostMapping("/news/save")
     public ResponseEntity<Object> saveNews(@RequestBody News news) {
         News savedNews = newsService.saveNews(news);
