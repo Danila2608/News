@@ -7,20 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Article {
+public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    private String category;
     private int totalResults;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<News> newsList = new ArrayList<>();
-
-    // Constructors...
 
     public Long getId() {
         return id;
@@ -30,12 +28,12 @@ public class Article {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCategory() {
+        return category;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getTotalResults() {

@@ -3,7 +3,6 @@ package com.example.news.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 public class News {
@@ -20,21 +19,10 @@ public class News {
     private LocalDateTime publishedAt;
     private String content;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "topic_id")
     @JsonBackReference
-    private Article article;
-
-    @ManyToMany
-    @JoinTable(
-            name = "news_source",
-            joinColumns = @JoinColumn(name = "news_id"),
-            inverseJoinColumns = @JoinColumn(name = "source_id")
-    )
-    private List<Source> sources;
-
-    // Constructors...
+    private Topic topic;
 
     public Long getId() {
         return id;
@@ -100,19 +88,11 @@ public class News {
         this.content = content;
     }
 
-    public Article getArticle() {
-        return article;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
-    }
-
-    public List<Source> getSources() {
-        return sources;
-    }
-
-    public void setSources(List<Source> sources) {
-        this.sources = sources;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 }

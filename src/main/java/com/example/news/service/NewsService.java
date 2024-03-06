@@ -37,7 +37,6 @@ public class NewsService {
             existingNews.setAuthor(news.getAuthor());
             existingNews.setTitle(news.getTitle());
             existingNews.setDescription(news.getDescription());
-            // Обновление остальных полей...
             return newsRepository.save(existingNews);
         }
         return null;

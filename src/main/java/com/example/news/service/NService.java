@@ -26,7 +26,6 @@ public class NService {
         String url = "https://newsapi.org/v2/top-headlines?country=us&category=" + category + "&apiKey=" + apiKey;
         News news = restTemplate.getForObject(url, News.class);
 
-        // Сохраните новости в базе данных
         saveNews(news);
 
         return news;
