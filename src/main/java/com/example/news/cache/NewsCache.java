@@ -10,11 +10,11 @@ import java.util.Map;
 @Component
 public class NewsCache {
 
-    private static final int maxSize = 5;
+    private static final int MAX_SIZE = 5;
     private final Map<Long, List<News>> cache = new LinkedHashMap<Long, List<News>>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Long, List<News>> eldest) {
-            return sizeInBytes() > maxSize;
+            return sizeInBytes() > MAX_SIZE;
         }
 
         private int sizeInBytes() {
