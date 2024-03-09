@@ -3,12 +3,16 @@ package com.example.news.service;
 import com.example.news.cache.NewsCache;
 import com.example.news.entity.News;
 import com.example.news.repository.NewsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class NewsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NewsService.class);
 
     private final NewsRepository newsRepository;
     private final NewsCache newsCache;
@@ -19,18 +23,17 @@ public class NewsService {
     }
 
     public List<News> getAllNews() {
-        Long cacheKey = -1L; // Пример уникального идентификатора для всех новостей
+        Long cacheKey = -1L;
         if (newsCache.containsKey(cacheKey)) {
-            System.out.println("Getting all news from cache...");
+            logger.debug("Getting all news from cache...");
             return newsCache.get(cacheKey);
         } else {
-            System.out.println("Fetching all news from database...");
+            logger.debug("Fetching all news from database...");
             List<News> allNews = newsRepository.findAll();
             newsCache.put(cacheKey, allNews);
             return allNews;
         }
     }
-
     public News getNewsById(Long id) {
         return newsRepository.findById(id).orElse(null);
     }
@@ -77,7 +80,6 @@ public class NewsService {
     }
 
     public List<News> getUsefulNewsByTopic(Long topicId) {
-        // Здесь будет ваш "кастомный" запрос для получения новостей по topicId
         return newsRepository.findNewsByTopicId(topicId);
     }
 }

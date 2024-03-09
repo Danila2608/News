@@ -40,7 +40,6 @@ public class TopicService {
 
         if (existingTopic != null) {
             String previousCategory = existingTopic.getCategory();
-            int previousPopularity = existingTopic.getPopularity();
 
             if (topic.getCategory() != null) {
                 existingTopic.setCategory(topic.getCategory());
@@ -64,4 +63,3 @@ public class TopicService {
         return null;
     }
 }
-

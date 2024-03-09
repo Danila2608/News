@@ -10,19 +10,17 @@ import java.util.Map;
 @Component
 public class NewsCache {
 
-    private final int maxSize = 5; // Максимальный общий размер кэша
+    private static final int maxSize = 5;
     private final Map<Long, List<News>> cache = new LinkedHashMap<Long, List<News>>() {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Long, List<News>> eldest) {
             return sizeInBytes() > maxSize;
         }
-    };
 
-    private int sizeInBytes() {
-        // Рассчитываем общий размер кэша в байтах (примерно)
-        // Реализация этого метода зависит от ваших требований
-        return cache.size() * 1000; // Предположим, что каждый элемент кэша имеет средний размер 1000 байт
-    }
+        private int sizeInBytes() {
+            return cache.size() * 1000;
+        }
+    };
 
     public void put(Long key, List<News> value) {
         cache.put(key, value);
