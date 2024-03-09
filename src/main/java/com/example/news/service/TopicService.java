@@ -28,15 +28,38 @@ public class TopicService {
     }
 
     public Topic createTopic(Topic topic) {
+        if (topic.getPopularity() < 0 || topic.getPopularity() > 100) {
+            topic.setPopularity(Math.min(Math.max(topic.getPopularity(), 0), 100));
+        }
         return topicRepository.save(topic);
     }
 
     public Topic updateTopic(Long id, Topic topic) {
-        Topic existingTopic = topicRepository.findById(id).orElse(null);
+        Topic existingTopic = topicRepository.findById(id)
+                .orElse(null);
+
         if (existingTopic != null) {
-            existingTopic.setCategory(topic.getCategory());
-            existingTopic.setTotalResults(topic.getTotalResults());
-            return topicRepository.save(existingTopic);
+            String previousCategory = existingTopic.getCategory();
+            int previousPopularity = existingTopic.getPopularity();
+
+            if (topic.getCategory() != null) {
+                existingTopic.setCategory(topic.getCategory());
+            }
+            if (topic.getPopularity() >= 0 && topic.getPopularity() <= 100) {
+                existingTopic.setPopularity(topic.getPopularity());
+            } else {
+                existingTopic.setPopularity(100);
+            }
+
+            if (topic.getCategory() == null) {
+                existingTopic.setCategory(previousCategory);
+            }
+
+            if (existingTopic.getPopularity() <= 100) {
+                return topicRepository.save(existingTopic);
+            } else {
+                return null;
+            }
         }
         return null;
     }

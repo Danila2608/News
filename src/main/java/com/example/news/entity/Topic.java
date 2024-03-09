@@ -14,7 +14,7 @@ public class Topic {
     private Long id;
 
     private String category;
-    private int totalResults;
+    private int popularity;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -36,12 +36,12 @@ public class Topic {
         this.category = category;
     }
 
-    public int getTotalResults() {
-        return totalResults;
+    public int getPopularity() {
+        return popularity;
     }
 
-    public void setTotalResults(int totalResults) {
-        this.totalResults = totalResults;
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 
     public List<News> getNewsList() {
