@@ -2,6 +2,7 @@ package com.example.news.controller;
 
 import com.example.news.entity.Topic;
 import com.example.news.service.TopicService;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ public class TopicController {
         }
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
         logger.info("Deleting topic with ID: {}", id);
@@ -46,13 +48,14 @@ public class TopicController {
         return ResponseEntity.noContent().build();
     }
 
+    @Hidden
     @PostMapping
     public ResponseEntity<Topic> createTopic(@RequestBody Topic topic) {
         logger.info("Creating topic: {}", topic);
         Topic createdTopic = topicService.createTopic(topic);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTopic);
     }
-
+    @Hidden
     @PutMapping("/{id}")
     public ResponseEntity<Topic> updateTopic(@PathVariable Long id, @RequestBody Topic topic) {
         logger.info("Updating topic with ID: {}", id);

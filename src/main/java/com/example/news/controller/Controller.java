@@ -2,6 +2,7 @@ package com.example.news.controller;
 
 import com.example.news.entity.News;
 import com.example.news.service.NService;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ class Controller {
         return ResponseEntity.ok(newsService.getNews(category));
     }
 
+    @Hidden
     @PostMapping("/news/save")
     public ResponseEntity<Object> saveNews(@RequestBody News news) {
         News savedNews = newsService.saveNews(news);

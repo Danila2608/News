@@ -12,7 +12,7 @@ public class NService {
     private final String apiKey;
     private final NewsRepository newsRepository;
 
-    public NService(@Value("${newsapi.key}") String apiKey, NewsRepository newsRepository) {
+    public NService(@Value("${newsApi.key}") String apiKey, NewsRepository newsRepository) {
         this.apiKey = apiKey;
         this.newsRepository = newsRepository;
     }
