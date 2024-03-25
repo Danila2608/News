@@ -5,7 +5,9 @@ import com.example.news.entity.News;
 import com.example.news.repository.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,11 +26,12 @@ public class NewsService {
 
     public List<News> getAllNews() {
         Long cacheKey = -1L;
-        if (newsCache.containsKey(cacheKey)) {
-            logger.debug("Getting all news from cache...");
-            return newsCache.get(cacheKey);
+        List<News> cachedNews = newsCache.get(cacheKey);
+        if (cachedNews != null) {
+            logger.info("Fetching all news from cache...");
+            return cachedNews;
         } else {
-            logger.debug("Fetching all news from database...");
+            logger.info("Fetching all news from database...");
             List<News> allNews = newsRepository.findAll();
             newsCache.put(cacheKey, allNews);
             return allNews;
@@ -40,9 +43,15 @@ public class NewsService {
 
     public void deleteNews(Long id) {
         newsRepository.deleteById(id);
+        newsCache.clearCache();
     }
 
     public News createNews(News news) {
+        newsRepository.findByTitle(news.getTitle()).ifPresent(existingNews -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "News with this title already exists.");
+        });
+        newsCache.clearCache();
+
         return newsRepository.save(news);
     }
 
@@ -74,7 +83,10 @@ public class NewsService {
                 existingNews.setDescription(previousDescription);
             }
 
+            newsCache.clearCache();
+
             return newsRepository.save(existingNews);
+
         }
         return null;
     }

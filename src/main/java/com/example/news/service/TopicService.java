@@ -2,7 +2,9 @@ package com.example.news.service;
 
 import com.example.news.entity.Topic;
 import com.example.news.repository.TopicRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class TopicService {
     }
 
     public Topic createTopic(Topic topic) {
+        if (topicRepository.existsByCategory(topic.getCategory())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Topic with this category already exists.");
+        }
         if (topic.getPopularity() < 0 || topic.getPopularity() > 100) {
             topic.setPopularity(Math.min(Math.max(topic.getPopularity(), 0), 100));
         }

@@ -2,7 +2,6 @@ package com.example.news.controller;
 
 import com.example.news.entity.News;
 import com.example.news.service.NewsService;
-import io.swagger.v3.oas.annotations.Hidden;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,6 @@ public class NewsController {
         }
     }
 
-    @Hidden
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNews(@PathVariable Long id) {
         logger.info("Deleting news with ID: {}", id);
@@ -48,15 +46,12 @@ public class NewsController {
         return ResponseEntity.noContent().build();
     }
 
-    @Hidden
     @PostMapping
     public ResponseEntity<News> createNews(@RequestBody News news) {
         logger.info("Creating news: {}", news);
         News createdNews = newsService.createNews(news);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdNews);
     }
-
-    @Hidden
     @PutMapping("/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id, @RequestBody News news) {
         logger.info("Updating news with ID: {}", id);
@@ -69,7 +64,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping("/useful")
+    @GetMapping("/topic")
     public ResponseEntity<List<News>> getUsefulNewsByTopic(@RequestParam("topicId") Long topicId) {
         logger.info("Fetching useful news by topic ID: {}", topicId);
         List<News> usefulNews = newsService.getUsefulNewsByTopic(topicId);

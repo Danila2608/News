@@ -11,30 +11,30 @@ import java.util.Map;
 public class NewsCache {
 
     private static final int MAX_SIZE = 5;
-    private final Map<Long, List<News>> cache = new LinkedHashMap<Long, List<News>>() {
+    private final Map<Long, List<News>> cache = new LinkedHashMap<Long, List<News>>(MAX_SIZE, 0.75f, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Long, List<News>> eldest) {
-            return sizeInBytes() > MAX_SIZE;
-        }
-
-        private int sizeInBytes() {
-            return cache.size() * 1000;
+            return size() > MAX_SIZE;
         }
     };
 
-    public void put(Long key, List<News> value) {
+    public synchronized void put(Long key, List<News> value) {
         cache.put(key, value);
     }
 
-    public List<News> get(Long key) {
-        return cache.get(key);
+    public synchronized List<News> get(Long key) {
+        return cache.getOrDefault(key, null);
     }
 
-    public boolean containsKey(Long key) {
+    public synchronized boolean containsKey(Long key) {
         return cache.containsKey(key);
     }
 
-    public void remove(Long key) {
+    public synchronized void remove(Long key) {
         cache.remove(key);
+    }
+
+    public synchronized void clearCache() {
+        cache.clear();
     }
 }
