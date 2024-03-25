@@ -1,6 +1,5 @@
 <configuration>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <!-- Путь к файлу лога -->
         <file>news.log</file>
         <append>false</append>
         <encoder>
