@@ -33,9 +33,8 @@ public class TopicService {
         if (topicRepository.existsByCategory(topic.getCategory())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Topic with this category already exists.");
         }
-        if (topic.getPopularity() < 0 || topic.getPopularity() > 100) {
-            topic.setPopularity(Math.min(Math.max(topic.getPopularity(), 0), 100));
-        }
+        int popularity = Math.min(Math.max(topic.getPopularity(), 0), 100);
+        topic.setPopularity(popularity);
         return topicRepository.save(topic);
     }
 
