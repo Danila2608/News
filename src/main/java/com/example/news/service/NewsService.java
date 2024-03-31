@@ -2,6 +2,7 @@ package com.example.news.service;
 
 import com.example.news.cache.NewsCache;
 import com.example.news.entity.News;
+import com.example.news.exception.LogException;
 import com.example.news.repository.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ public class NewsService {
         newsCache.clearCache();
     }
 
+    @LogException
     public News createNews(News news) {
         newsRepository.findByTitle(news.getTitle()).ifPresent(existingNews -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "News with this title already exists.");
