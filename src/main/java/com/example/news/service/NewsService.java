@@ -3,12 +3,11 @@ package com.example.news.service;
 import com.example.news.cache.NewsCache;
 import com.example.news.entity.News;
 import com.example.news.exception.LogException;
+import com.example.news.exception.NewsAlreadyExistsException;
 import com.example.news.repository.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -49,9 +48,10 @@ public class NewsService {
 
     @LogException
     public News createNews(News news) {
-        newsRepository.findByTitle(news.getTitle()).ifPresent(existingNews -> {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "News with this title already exists.");
-        });
+        if (newsRepository.findByTitle(news.getTitle()).isPresent()) {
+            throw new NewsAlreadyExistsException("News with this title already exists.");
+        }
+
         newsCache.clearCache();
 
         return newsRepository.save(news);
