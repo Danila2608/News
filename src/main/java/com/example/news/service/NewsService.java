@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NewsService {
@@ -22,6 +23,34 @@ public class NewsService {
     public NewsService(NewsRepository newsRepository, NewsCache newsCache) {
         this.newsRepository = newsRepository;
         this.newsCache = newsCache;
+    }
+
+    public List<News> createOrUpdateNews(List<News> newsList) {
+        // Используем Stream API для обхода списка новостей
+        newsList.forEach(news -> {
+            // Проверяем, существует ли новость с таким заголовком
+            Optional<News> existingNews = newsRepository.findByTitle(news.getTitle());
+            existingNews.ifPresentOrElse(
+                    // Если новость существует, обновляем ее
+                    n -> {
+                        n.setAuthor(news.getAuthor());
+                        n.setDescription(news.getDescription());
+                        n.setUrl(news.getUrl());
+                        n.setUrlToImage(news.getUrlToImage());
+                        n.setPublishedAt(news.getPublishedAt());
+                        n.setContent(news.getContent());
+                        newsRepository.save(n);
+                    },
+                    // Если новости нет, создаем новую
+                    () -> newsRepository.save(news)
+            );
+        });
+
+        // Очищаем кэш после выполнения bulk операции
+        newsCache.clearCache();
+
+        // Возвращаем список обновленных или созданных новостей
+        return newsList;
     }
 
     public List<News> getAllNews() {

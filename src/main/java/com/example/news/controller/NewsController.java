@@ -21,6 +21,13 @@ public class NewsController {
         this.newsService = newsService;
     }
 
+    @PostMapping("/bulk")
+    public ResponseEntity<List<News>> createOrUpdateNewsBulk(@RequestBody List<News> newsList) {
+        logger.info("Creating or updating news in bulk");
+        List<News> createdOrUpdatedNews = newsService.createOrUpdateNews(newsList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrUpdatedNews);
+    }
+
     @GetMapping
     public List<News> getAllNews() {
         logger.info("Fetching all news");
