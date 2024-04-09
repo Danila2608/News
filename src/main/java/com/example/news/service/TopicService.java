@@ -63,11 +63,7 @@ public class TopicService {
                 existingTopic.setCategory(previousCategory);
             }
 
-            if (existingTopic.getPopularity() <= 100) {
-                return topicRepository.save(existingTopic);
-            } else {
-                return null;
-            }
+            return topicRepository.save(existingTopic);
         }
         return null;
     }

@@ -2,7 +2,9 @@ package com.example.news.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class News {
@@ -23,6 +25,21 @@ public class News {
     @JoinColumn(name = "topic_id")
     @JsonBackReference
     private Topic topic;
+
+    public News() {
+        // Пустой конструктор
+    }
+
+    public News(String author, String title, String description, String url, String urlToImage, LocalDateTime publishedAt, String content, Topic topic) {
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.urlToImage = urlToImage;
+        this.publishedAt = publishedAt;
+        this.content = content;
+        this.topic = topic;
+    }
 
     public Long getId() {
         return id;
@@ -94,5 +111,26 @@ public class News {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return Objects.equals(id, news.id) &&
+                Objects.equals(author, news.author) &&
+                Objects.equals(title, news.title) &&
+                Objects.equals(description, news.description) &&
+                Objects.equals(url, news.url) &&
+                Objects.equals(urlToImage, news.urlToImage) &&
+                Objects.equals(publishedAt, news.publishedAt) &&
+                Objects.equals(content, news.content) &&
+                Objects.equals(topic, news.topic);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, author, title, description, url, urlToImage, publishedAt, content, topic);
     }
 }
