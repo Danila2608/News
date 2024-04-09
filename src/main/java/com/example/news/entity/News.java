@@ -51,9 +51,6 @@ public class News {
         private String content;
         private Topic topic;
 
-        public Builder() {
-        }
-
         public Builder author(String author) {
             this.author = author;
             return this;
