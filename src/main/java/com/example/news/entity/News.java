@@ -30,6 +30,7 @@ public class News {
         // Пустой конструктор
     }
 
+    @SuppressWarnings("unused")
     public News(String author, String title, String description, String url, String urlToImage, LocalDateTime publishedAt, String content, Topic topic) {
         this.author = author;
         this.title = title;

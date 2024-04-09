@@ -90,7 +90,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void createTopicTest() {
+    void createTopicTest() {
         Topic topic = new Topic();
         topic.setCategory("Science");
         topic.setPopularity(50);
@@ -109,7 +109,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void createTopicWithExistingCategoryTest() {
+    void createTopicWithExistingCategoryTest() {
         Topic topic = new Topic();
         topic.setCategory("Science");
 
@@ -124,7 +124,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void createTopicWithInvalidPopularityTest() {
+    void createTopicWithInvalidPopularityTest() {
         Topic topic = new Topic();
         topic.setCategory("Science");
         topic.setPopularity(150);
@@ -143,7 +143,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void updateTopicTest() {
+    void updateTopicTest() {
         Topic existingTopic = new Topic();
         existingTopic.setId(1L);
         existingTopic.setCategory("Science");
@@ -167,7 +167,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void updateTopicWithInvalidPopularityTest() {
+    void updateTopicWithInvalidPopularityTest() {
         Topic existingTopic = new Topic();
         existingTopic.setId(1L);
         existingTopic.setCategory("Science");
@@ -191,7 +191,7 @@ class TopicServiceTests {
     }
 
     @Test
-    public void updateNonExistentTopicTest() {
+    void updateNonExistentTopicTest() {
         Topic newTopic = new Topic();
         newTopic.setCategory("Technology");
         newTopic.setPopularity(80);
