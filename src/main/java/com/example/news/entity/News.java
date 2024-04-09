@@ -30,88 +30,73 @@ public class News {
         // Пустой конструктор
     }
 
-    @SuppressWarnings("unused")
-    public News(String author, String title, String description, String url, String urlToImage, LocalDateTime publishedAt, String content, Topic topic) {
-        this.author = author;
-        this.title = title;
-        this.description = description;
-        this.url = url;
-        this.urlToImage = urlToImage;
-        this.publishedAt = publishedAt;
-        this.content = content;
-        this.topic = topic;
+    private News(Builder builder) {
+        this.author = builder.author;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.url = builder.url;
+        this.urlToImage = builder.urlToImage;
+        this.publishedAt = builder.publishedAt;
+        this.content = builder.content;
+        this.topic = builder.topic;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public static class Builder {
+        private String author;
+        private String title;
+        private String description;
+        private String url;
+        private String urlToImage;
+        private LocalDateTime publishedAt;
+        private String content;
+        private Topic topic;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+        public Builder() {
+        }
 
-    public String getAuthor() {
-        return author;
-    }
+        public Builder author(String author) {
+            this.author = author;
+            return this;
+        }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
 
-    public String getTitle() {
-        return title;
-    }
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
 
-    public String getDescription() {
-        return description;
-    }
+        public Builder urlToImage(String urlToImage) {
+            this.urlToImage = urlToImage;
+            return this;
+        }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+        public Builder publishedAt(LocalDateTime publishedAt) {
+            this.publishedAt = publishedAt;
+            return this;
+        }
 
-    public String getUrl() {
-        return url;
-    }
+        public Builder content(String content) {
+            this.content = content;
+            return this;
+        }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+        public Builder topic(Topic topic) {
+            this.topic = topic;
+            return this;
+        }
 
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
-
-    public LocalDateTime getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(LocalDateTime publishedAt) {
-        this.publishedAt = publishedAt;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
+        public News build() {
+            return new News(this);
+        }
     }
 
     @Override
