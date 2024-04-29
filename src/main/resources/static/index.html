@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <title>News Center</title>
+</head>
+<body>
+<div class="container">
+  <h1>News Center</h1>
+  <div class="button-container">
+    <button id="fetch-news-button">Show the news</button>
+    <button id="add-news-button">Add a news</button>
+    <button id="delete-news-button">Delete a news</button>
+    <button id="edit-news-button">Edit the news</button>
+  </div>
+  <div id="news-content"></div>
+
+  <div class="button-container">
+    <button id="fetch-topics-button">Show topics</button>
+    <button id="add-topic-button">Add a topic</button>
+    <button id="delete-topic-button">Delete a topic</button>
+    <button id="edit-topic-button">Edit a topic</button>
+  </div>
+  <div id="topics-content"></div>
+
+  <div id="news-form" class="hidden">
+    <h2>Adding</h2>
+    <form>
+      <label for="author">Author:</label><br>
+      <input type="text" id="author" name="author"><br>
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title"><br>
+      <label for="description">Description:</label><br>
+      <input type="text" id="description" name="description"><br>
+      <label for="url">URL:</label><br>
+      <input type="text" id="url" name="url"><br>
+      <label for="urlToImage">URL to Image:</label><br>
+      <input type="text" id="urlToImage" name="urlToImage"><br>
+      <label for="publishedAt">Published At:</label><br>
+      <input type="datetime-local" id="publishedAt" name="publishedAt"><br>
+      <label for="news-input">Content:</label><br>
+      <textarea id="news-input" name="content"></textarea><br>
+      <label for="news-topic-id">Topic ID:</label><br>
+      <input type="number" id="news-topic-id" name="news-topic-id" min="1"><br>
+      <input type="submit" value="Add News">
+    </form>
+  </div>
+
+  <div id="delete-news-form" class="hidden">
+    <h2>Removal</h2>
+    <form>
+      <label for="news-id">News ID:</label><br>
+      <input type="number" id="news-id" name="news-id" min="1"><br>
+      <input type="submit" value="Delete News">
+    </form>
+  </div>
+
+  <div id="edit-news-form" class="hidden">
+    <h2>Editing</h2>
+    <form>
+      <label for="edit-news-id">News ID:</label><br>
+      <input type="number" id="edit-news-id" name="edit-news-id" min="1"><br>
+      <label for="edit-author">Author:</label><br>
+      <input type="text" id="edit-author" name="edit-author"><br>
+      <label for="edit-title">Title:</label><br>
+      <input type="text" id="edit-title" name="edit-title"><br>
+      <label for="edit-description">Description:</label><br>
+      <input type="text" id="edit-description" name="edit-description"><br>
+      <label for="edit-url">URL:</label><br>
+      <input type="text" id="edit-url" name="edit-url"><br>
+      <label for="edit-urlToImage">URL to Image:</label><br>
+      <input type="text" id="edit-urlToImage" name="edit-urlToImage"><br>
+      <label for="edit-publishedAt">Published At:</label><br>
+      <input type="datetime-local" id="edit-publishedAt" name="edit-publishedAt"><br>
+      <label for="edit-news-input">Content:</label><br>
+      <textarea id="edit-news-input" name="edit-content"></textarea><br>
+      <input type="submit" value="Save Changes">
+    </form>
+  </div>
+
+  <div id="topic-form" class="hidden">
+    <h2>Adding</h2>
+    <form>
+      <label for="category">Category:</label><br>
+      <input type="text" id="category" name="category"><br>
+      <label for="popularity">Popularity:</label><br>
+      <input type="number" id="popularity" name="popularity" min="0" max="100"><br>
+      <input type="submit" value="Add Topic">
+    </form>
+  </div>
+
+  <div id="delete-topic-form" class="hidden">
+    <h2>Removal</h2>
+    <form>
+      <label for="topic-id">Topic ID:</label><br>
+      <input type="number" id="topic-id" name="topic-id" min="1"><br>
+      <input type="submit" value="Delete Topic">
+    </form>
+  </div>
+
+  <div id="edit-topic-form" class="hidden">
+    <h2>Editing</h2>
+    <form>
+      <label for="edit-topic-id">Topic ID:</label><br>
+      <input type="number" id="edit-topic-id" name="edit-topic-id" min="1"><br>
+      <label for="edit-category">Category:</label><br>
+      <input type="text" id="edit-category" name="edit-category"><br>
+      <label for="edit-popularity">Popularity:</label><br>
+      <input type="number" id="edit-popularity" name="edit-popularity" min="0" max="100"><br>
+      <input type="submit" value="Save Changes">
+    </form>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -30,62 +30,48 @@ class TopicServiceTests {
 
     @Test
     void testTopicServiceConstructor() {
-        // Проверяем, что объект topicService не является null после инициализации
         assertNotNull(topicService);
     }
 
     @Test
     void testGetAllTopics() {
-        // Создаем список тем для теста
         List<Topic> topics = Arrays.asList(
-                new Topic(), // Используем конструктор без аргументов
+                new Topic(),
                 new Topic(),
                 new Topic()
         );
 
-        // Устанавливаем ожидаемое поведение для заглушки topicRepository.findAll()
         when(topicRepository.findAll()).thenReturn(topics);
 
-        // Вызываем метод, который тестируем
         List<Topic> result = topicService.getAllTopics();
 
-        // Проверяем, что результат соответствует ожидаемому списку тем
         assertEquals(topics, result);
     }
 
     @Test
     void testGetTopicById() {
-        // Создаем заглушку для темы
         Topic topic = new Topic();
         topic.setId(1L);
         topic.setCategory("Technology");
         topic.setPopularity(80);
 
-        // Устанавливаем ожидаемое поведение для заглушки репозитория (находим тему)
         when(topicRepository.findById(1L)).thenReturn(Optional.of(topic));
 
-        // Вызываем метод, который тестируем
         Topic result = topicService.getTopicById(1L);
 
-        // Проверяем, что метод вернул тему с заданным id
         assertEquals(topic, result);
 
-        // Устанавливаем ожидаемое поведение для заглушки репозитория (темы не существует)
         when(topicRepository.findById(2L)).thenReturn(Optional.empty());
 
-        // Вызываем метод для несуществующего id
         Topic nonExistingResult = topicService.getTopicById(2L);
 
-        // Проверяем, что метод вернул null для несуществующего id
         assertNull(nonExistingResult);
     }
 
     @Test
     void testDeleteTopic() {
-        // Вызываем метод, который тестируем
         topicService.deleteTopic(1L);
 
-        // Проверяем, что метод deleteById() репозитория был вызван один раз с ожидаемым аргументом
         verify(topicRepository, times(1)).deleteById(1L);
     }
 

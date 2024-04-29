@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:63342")
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/new")
 public class NewsController {
 
     private final NewsService newsService;
@@ -21,7 +22,7 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    @PostMapping("/bulk")
+    @PostMapping("/news")
     public ResponseEntity<List<News>> createOrUpdateNewsBulk(@RequestBody List<News> newsList) {
         logger.info("Creating or updating news in bulk");
         List<News> createdOrUpdatedNews = newsService.createOrUpdateNews(newsList);

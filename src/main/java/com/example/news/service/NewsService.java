@@ -8,7 +8,6 @@ import com.example.news.repository.NewsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +19,18 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final NewsCache newsCache;
 
-    public NewsService(NewsRepository newsRepository, NewsCache newsCache) {
+    private final RequestCounterService requestCounterService;
+
+    public NewsService(NewsRepository newsRepository, NewsCache newsCache, RequestCounterService requestCounterService) {
         this.newsRepository = newsRepository;
         this.newsCache = newsCache;
+        this.requestCounterService = requestCounterService;
     }
 
     public List<News> createOrUpdateNews(List<News> newsList) {
-        // Используем Stream API для обхода списка новостей
         newsList.forEach(news -> {
-            // Проверяем, существует ли новость с таким заголовком
             Optional<News> existingNews = newsRepository.findByTitle(news.getTitle());
             existingNews.ifPresentOrElse(
-                    // Если новость существует, обновляем ее
                     n -> {
                         n.setAuthor(news.getAuthor());
                         n.setDescription(news.getDescription());
@@ -41,19 +40,17 @@ public class NewsService {
                         n.setContent(news.getContent());
                         newsRepository.save(n);
                     },
-                    // Если новости нет, создаем новую
                     () -> newsRepository.save(news)
             );
         });
 
-        // Очищаем кэш после выполнения bulk операции
         newsCache.clearCache();
 
-        // Возвращаем список обновленных или созданных новостей
         return newsList;
     }
 
-    public List<News> getAllNews() {
+    public synchronized List<News> getAllNews() {
+        requestCounterService.increment(); // Теперь можно использовать requestCounterService
         Long cacheKey = -1L;
         List<News> cachedNews = newsCache.get(cacheKey);
         if (cachedNews != null) {
