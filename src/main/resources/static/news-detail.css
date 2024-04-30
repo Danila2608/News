@@ -48,7 +48,6 @@ a, .back-button {
     transition: background-color 0.3s ease;
     text-align: center;
     margin: 0 auto;
-    display: block;
 }
 
 a:hover, .back-button:hover {
