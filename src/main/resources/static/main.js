@@ -86,7 +86,7 @@ document.getElementById('news-form').addEventListener('submit', function(event) 
     const publishedAtInput = document.getElementById('publishedAt').value;
     const publishedAtDate = new Date(publishedAtInput);
     const publishedAtISO = publishedAtDate.toISOString();
-    const newsTopicId = document.getElementById('news-topic-id').value;
+    const topicId = document.getElementById('topic').value;
     const news = {
         author: document.getElementById('author').value,
         title: document.getElementById('title').value,
@@ -94,9 +94,9 @@ document.getElementById('news-form').addEventListener('submit', function(event) 
         publishedAt: publishedAtISO,
         content: document.getElementById('news-input').value,
     };
-    if (newsTopicId) {
+    if (topicId) {
         news.topic = {
-            id: newsTopicId
+            id: topicId
         };
     }
     fetch('http://localhost:8080/new', {
@@ -158,7 +158,18 @@ document.getElementById('topic-form').addEventListener('submit', function(event)
         body: JSON.stringify(topic)
     })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            const topicSelect = document.getElementById('topic');
+            const option = document.createElement('option');
+            option.value = data.id;
+            option.text = data.category;
+            topicSelect.add(option);
+            const editTopicSelect = document.getElementById('edit-topic');
+            const editOption = document.createElement('option');
+            editOption.value = data.id;
+            editOption.text = data.category;
+            editTopicSelect.add(editOption);
+        })
         .catch(error => console.error('Error:', error));
 });
 
@@ -171,10 +182,22 @@ function fetchAndDisplayTopics() {
                 <div>
                     <h3><button class="topic-button" onclick="window.location.href='topic-news.html?topic=${topic.id}'">${topic.category}</button></h3>
                     <p>Popularity: ${topic.popularity}</p>
-                    <button onclick="deleteTopic(${topic.id})">Delete</button>
                     <button onclick="editTopic(${topic.id})">Edit</button>
+                    <button onclick="deleteTopic(${topic.id})">Delete</button>
                 </div>
             `).join('');
+            const topicSelect = document.getElementById('topic');
+            const editTopicSelect = document.getElementById('edit-topic');
+            topics.forEach(topic => {
+                const option = document.createElement('option');
+                option.value = topic.id;
+                option.text = topic.category;
+                topicSelect.add(option);
+                const editOption = document.createElement('option');
+                editOption.value = topic.id;
+                editOption.text = topic.category;
+                editTopicSelect.add(editOption);
+            });
         })
         .catch(error => console.error('Error:', error));
 }
@@ -185,6 +208,20 @@ function deleteTopic(id) {
     })
         .then(response => {
             if (response.ok) {
+                const topicSelect = document.getElementById('topic');
+                const editTopicSelect = document.getElementById('edit-topic');
+                for (let i = 0; i < topicSelect.options.length; i++) {
+                    if (topicSelect.options[i].value === id.toString()) {
+                        topicSelect.remove(i);
+                        break;
+                    }
+                }
+                for (let i = 0; i < editTopicSelect.options.length; i++) {
+                    if (editTopicSelect.options[i].value === id.toString()) {
+                        editTopicSelect.remove(i);
+                        break;
+                    }
+                }
                 fetchAndDisplayTopics();
             } else {
                 throw new Error('Error deleting topic: ' + response.statusText);
@@ -197,20 +234,20 @@ function editTopic(id) {
     fetch(`http://localhost:8080/topics/${id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('topic-form').classList.remove('hidden');
+            document.getElementById('edit-topic-form').classList.remove('hidden');
             document.getElementById('topic-id').value = data.id;
-            document.getElementById('category').value = data.category;
-            document.getElementById('popularity').value = data.popularity;
+            document.getElementById('edit-category').value = data.category;
+            document.getElementById('edit-popularity').value = data.popularity;
         })
         .catch(error => console.error('Error:', error));
 }
 
-document.getElementById('topic-form').addEventListener('submit', function(event) {
+document.getElementById('edit-topic-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const topicId = document.getElementById('topic-id').value;
     const topic = {
-        category: document.getElementById('category').value,
-        popularity: document.getElementById('popularity').value
+        category: document.getElementById('edit-category').value,
+        popularity: document.getElementById('edit-popularity').value
     };
     fetch(`http://localhost:8080/topics/${topicId}`, {
         method: 'PUT',
@@ -221,7 +258,7 @@ document.getElementById('topic-form').addEventListener('submit', function(event)
     })
         .then(response => {
             if (response.ok) {
-                document.getElementById('topic-form').classList.add('hidden');
+                document.getElementById('edit-topic-form').classList.add('hidden');
                 fetchAndDisplayTopics();
             } else {
                 throw new Error('Error editing topic: ' + response.statusText);

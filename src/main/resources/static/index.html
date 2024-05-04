@@ -26,8 +26,10 @@
       <input type="datetime-local" id="publishedAt" name="publishedAt"><br>
       <label for="news-input">Content:</label><br>
       <textarea id="news-input" name="content"></textarea><br>
-      <label for="news-topic-id">Topic ID (optional):</label><br>
-      <input type="number" id="news-topic-id" name="news-topic-id" min="1"><br>
+      <label for="topic">Topic:</label><br>
+      <select id="topic" name="topic">
+        <option value="">Select a topic</option>
+      </select><br>
       <input type="submit" value="Add News">
     </form>
   </div>
