@@ -31,6 +31,25 @@
       <input type="submit" value="Add News">
     </form>
   </div>
+  <div id="edit-form" class="hidden">
+    <h2>Editing</h2>
+    <form>
+      <input type="hidden" id="news-id">
+      <label for="edit-author">Author:</label><br>
+      <input type="text" id="edit-author" name="edit-author"><br>
+      <label for="edit-title">Title:</label><br>
+      <input type="text" id="edit-title" name="edit-title"><br>
+      <label for="edit-description">Description:</label><br>
+      <input type="text" id="edit-description" name="edit-description"><br>
+      <label for="edit-publishedAt">Published At:</label><br>
+      <input type="datetime-local" id="edit-publishedAt" name="edit-publishedAt"><br>
+      <label for="edit-news-input">Content:</label><br>
+      <textarea id="edit-news-input" name="edit-content"></textarea><br>
+      <label for="edit-news-topic-id">Topic ID (optional):</label><br>
+      <input type="number" id="edit-news-topic-id" name="edit-news-topic-id" min="1"><br>
+      <input type="submit" value="Save">
+    </form>
+  </div>
   <div class="button-container">
     <button id="fetch-topics-button">Show topics</button>
     <button id="add-topic-button">Add a topic</button>

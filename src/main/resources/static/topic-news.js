@@ -16,8 +16,7 @@ function fetchNewsByTopic() {
                     <p><span class="bold-text">Author:</span> ${news.author}</p>
                     <p>${news.description}</p>
                     <p><span class="bold-text">Published at:</span> ${new Date(news.publishedAt).toLocaleString()}</p>
-                    <img src="${news.urlToImage}" alt="${news.title}">
-                    <div class="back-button-container">
+                    <div class="button-container">
                         <button class="show-content-button" onclick="window.location.href='news-detail.html?news=${news.id}'">Show full content</button>
                     </div>
                 </div>

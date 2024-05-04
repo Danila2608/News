@@ -9,14 +9,85 @@ function fetchNews() {
                     <p>${newItem.description}</p>
                     <p>Published at: ${new Date(newItem.publishedAt).toLocaleString()}</p>
                     <button onclick="window.location.href='news-detail.html?news=${newItem.id}'">Show full content</button>
+                    <button onclick="editNews(${newItem.id})">Edit</button>
+                    <button onclick="deleteNews(${newItem.id})">Delete</button>
                 </div>
             `).join('');
         })
         .catch(error => console.error('Error:', error));
 }
+
+function deleteNews(id) {
+    fetch(`http://localhost:8080/new/${id}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (response.ok) {
+                fetchNews();
+            } else {
+                throw new Error('Error deleting news: ' + response.statusText);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function editNews(id) {
+    fetch(`http://localhost:8080/new/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('edit-form').classList.remove('hidden');
+            document.getElementById('news-id').value = data.id;
+            document.getElementById('edit-author').value = data.author;
+            document.getElementById('edit-title').value = data.title;
+            document.getElementById('edit-description').value = data.description;
+            document.getElementById('edit-publishedAt').value = data.publishedAt;
+            document.getElementById('edit-news-input').value = data.content;
+            document.getElementById('edit-news-topic-id').value = data.topic ? data.topic.id : '';
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.getElementById('edit-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const newsId = document.getElementById('news-id').value;
+    const publishedAtInput = document.getElementById('edit-publishedAt').value;
+    const publishedAtDate = new Date(publishedAtInput);
+    const publishedAtISO = publishedAtDate.toISOString();
+    const newsTopicId = document.getElementById('edit-news-topic-id').value;
+    const news = {
+        author: document.getElementById('edit-author').value,
+        title: document.getElementById('edit-title').value,
+        description: document.getElementById('edit-description').value,
+        publishedAt: publishedAtISO,
+        content: document.getElementById('edit-news-input').value,
+    };
+    if (newsTopicId) {
+        news.topic = {
+            id: newsTopicId
+        };
+    }
+    fetch(`http://localhost:8080/new/${newsId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(news)
+    })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('edit-form').classList.add('hidden');
+                fetchNews();
+            } else {
+                throw new Error('Error editing news: ' + response.statusText);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+
 document.getElementById('add-news-button').addEventListener('click', function() {
     document.getElementById('news-form').classList.toggle('hidden');
 });
+
 document.getElementById('news-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const publishedAtInput = document.getElementById('publishedAt').value;
@@ -57,6 +128,8 @@ document.getElementById('news-form').addEventListener('submit', function(event) 
                     <p>${data.description}</p>
                     <p>Published at: ${new Date(data.publishedAt).toLocaleString()}</p>
                     <button onclick="window.location.href='news-detail.html?news=${data.id}'">Show full content</button>
+                    <button onclick="editNews(${data.id})">Edit</button>
+                    <button onclick="deleteNews(${data.id})">Delete</button>
                 </div>
             `;
             content.innerHTML = '<h2>News</h2>' + newItem + content.innerHTML;
@@ -73,9 +146,11 @@ document.getElementById('fetch-topics-button').addEventListener('click', functio
         topicsContent.style.display = 'none';
     }
 });
+
 document.getElementById('add-topic-button').addEventListener('click', function() {
     document.getElementById('topic-form').classList.toggle('hidden');
 });
+
 document.getElementById('topic-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const topic = {
@@ -93,6 +168,7 @@ document.getElementById('topic-form').addEventListener('submit', function(event)
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
 });
+
 function fetchAndDisplayTopics() {
     fetch('http://localhost:8080/topics')
         .then(response => response.json())
