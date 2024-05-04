@@ -43,7 +43,6 @@ public class TopicService {
         return topicRepository.save(topic);
     }
 
-    //
     public Topic updateTopic(Long id, Topic topic) {
         Topic existingTopic = topicRepository.findById(id)
                 .orElse(null);
