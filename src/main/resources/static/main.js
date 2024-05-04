@@ -42,7 +42,6 @@ function editNews(id) {
             document.getElementById('edit-description').value = data.description;
             document.getElementById('edit-publishedAt').value = data.publishedAt;
             document.getElementById('edit-news-input').value = data.content;
-            document.getElementById('edit-news-topic-id').value = data.topic ? data.topic.id : '';
         })
         .catch(error => console.error('Error:', error));
 }
@@ -53,7 +52,6 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
     const publishedAtInput = document.getElementById('edit-publishedAt').value;
     const publishedAtDate = new Date(publishedAtInput);
     const publishedAtISO = publishedAtDate.toISOString();
-    const newsTopicId = document.getElementById('edit-news-topic-id').value;
     const news = {
         author: document.getElementById('edit-author').value,
         title: document.getElementById('edit-title').value,
@@ -61,11 +59,6 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
         publishedAt: publishedAtISO,
         content: document.getElementById('edit-news-input').value,
     };
-    if (newsTopicId) {
-        news.topic = {
-            id: newsTopicId
-        };
-    }
     fetch(`http://localhost:8080/new/${newsId}`, {
         method: 'PUT',
         headers: {
