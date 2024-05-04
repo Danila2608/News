@@ -63,6 +63,17 @@
       <input type="submit" value="Add Topic">
     </form>
   </div>
+  <div id="edit-topic-form" class="hidden">
+    <h2>Editing</h2>
+    <form>
+      <input type="hidden" id="topic-id">
+      <label for="edit-category">Category:</label><br>
+      <input type="text" id="edit-category" name="edit-category"><br>
+      <label for="edit-popularity">Popularity:</label><br>
+      <input type="number" id="edit-popularity" name="edit-popularity" min="0" max="100"><br>
+      <input type="submit" value="Save">
+    </form>
+  </div>
 </div>
 <script src="main.js"></script>
 </body>

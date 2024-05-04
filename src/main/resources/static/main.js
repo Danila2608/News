@@ -171,8 +171,61 @@ function fetchAndDisplayTopics() {
                 <div>
                     <h3><button class="topic-button" onclick="window.location.href='topic-news.html?topic=${topic.id}'">${topic.category}</button></h3>
                     <p>Popularity: ${topic.popularity}</p>
+                    <button onclick="deleteTopic(${topic.id})">Delete</button>
+                    <button onclick="editTopic(${topic.id})">Edit</button>
                 </div>
             `).join('');
         })
         .catch(error => console.error('Error:', error));
 }
+
+function deleteTopic(id) {
+    fetch(`http://localhost:8080/topics/${id}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (response.ok) {
+                fetchAndDisplayTopics();
+            } else {
+                throw new Error('Error deleting topic: ' + response.statusText);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function editTopic(id) {
+    fetch(`http://localhost:8080/topics/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('topic-form').classList.remove('hidden');
+            document.getElementById('topic-id').value = data.id;
+            document.getElementById('category').value = data.category;
+            document.getElementById('popularity').value = data.popularity;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.getElementById('topic-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const topicId = document.getElementById('topic-id').value;
+    const topic = {
+        category: document.getElementById('category').value,
+        popularity: document.getElementById('popularity').value
+    };
+    fetch(`http://localhost:8080/topics/${topicId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(topic)
+    })
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('topic-form').classList.add('hidden');
+                fetchAndDisplayTopics();
+            } else {
+                throw new Error('Error editing topic: ' + response.statusText);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
