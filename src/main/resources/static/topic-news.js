@@ -25,7 +25,6 @@ function fetchNewsByTopic() {
         .catch(error => console.error('Error:', error));
 }
 
-// Обновляем список новостей на странице категории после редактирования новости
 function updateNewsByTopic() {
     const topicId = getTopicIdFromUrl();
     fetch(`http://localhost:8080/topics/${topicId}`)
@@ -49,11 +48,9 @@ function updateNewsByTopic() {
 
 window.onload = fetchNewsByTopic;
 
-// Вызываем функцию updateNewsByTopic после редактирования новости
 const editForm = document.getElementById('edit-form');
 if (editForm) {
     editForm.addEventListener('submit', function(event) {
-        // ... ваш код для редактирования новости ...
-        updateNewsByTopic(); // обновляем список новостей на странице категории
+        updateNewsByTopic();
     });
 }

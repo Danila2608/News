@@ -9,10 +9,15 @@
 <body onload="fetchNews()">
 <div class="container">
   <h1>News Center</h1>
-  <div id="news-content"></div>
+
   <div class="button-container">
     <button id="add-news-button">Add a news</button>
+    <button id="add-topic-button">Add a topic</button>
+    <button id="fetch-topics-button">Show topics</button>
   </div>
+
+  <div id="news-content"></div>
+
   <div id="news-form" class="hidden">
     <h2>Adding</h2>
     <form>
@@ -33,6 +38,7 @@
       <input type="submit" value="Add News">
     </form>
   </div>
+
   <div id="edit-form" class="hidden">
     <h2>Editing</h2>
     <form>
@@ -50,11 +56,9 @@
       <input type="submit" value="Save">
     </form>
   </div>
-  <div class="button-container">
-    <button id="fetch-topics-button">Show topics</button>
-    <button id="add-topic-button">Add a topic</button>
-  </div>
+
   <div id="topics-content"></div>
+
   <div id="topic-form" class="hidden">
     <h2>Adding</h2>
     <form>
@@ -65,6 +69,7 @@
       <input type="submit" value="Add Topic">
     </form>
   </div>
+
   <div id="edit-topic-form" class="hidden">
     <h2>Editing</h2>
     <form>

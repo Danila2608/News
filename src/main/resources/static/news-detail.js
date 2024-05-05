@@ -20,7 +20,7 @@ function fetchNewsDetail() {
             backButton.onclick = function() {
                 window.location.href = 'index.html';
             };
-            document.body.appendChild(backButton);
+            document.querySelector('.container').appendChild(backButton);
         })
         .catch(error => console.error('Error:', error));
 }
